@@ -27,39 +27,21 @@
 *                                                                                                                      *
 ***********************************************************************************************************************/
 
-#ifndef BVLLMessage_h
-#define BVLLMessage_h
+#ifndef BVLLForwardNDPUMessage_h
+#define BVLLForwardNDPUMessage_h
 
 /**
-	@brief A message in the BACnet Virtual Link Layer
+	@brief A BACnet/IP "Forwarded-NPDU" message
  */
-class BVLLMessage
+class BVLLForwardNDPUMessage
 {
 public:
-	BVLLMessage();
-	virtual ~BVLLMessage();
+	BVLLForwardNDPUMessage();
+	BVLLForwardNDPUMessage(unsigned char* buf, size_t len);
+	virtual ~BVLLForwardNDPUMessage()
 
-	virtual size_t Pack(unsigned char* buf, size_t buflen);
-	static BVLLMessage* Unpack(unsigned char* buf, size_t len);
-
-	enum BVLLType
-	{
-		BVLL_TYPE_BACNETIP = 0x81
-	};
-	uint8_t m_type;
-
-	enum BVLLFunction
-	{
-		BVLL_FUNC_RESULT				= 0x00,
-		BVLL_FUNC_WRITE_BROADCAST		= 0x01,
-		BVLL_FUNC_READ_BROADCAST		= 0x02,
-		BVLL_FUNC_READ_BROADCAST_ACK	= 0x03,
-		BVLL_FUNC_FORWARD_NPDU			= 0x04,
-	};
-	uint8_t m_function;
-
-	//includes header
-	uint16_t m_length;
+	uint8_t m_sourceAddress[6];
+	std::vector<uint8_t> m_originalMessage;
 };
 
 #endif

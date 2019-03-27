@@ -27,39 +27,20 @@
 *                                                                                                                      *
 ***********************************************************************************************************************/
 
-#ifndef BVLLMessage_h
-#define BVLLMessage_h
+#ifndef BVLLReadBroadcastDistributionTableAckMessage_h
+#define BVLLReadBroadcastDistributionTableAckMessage_h
 
 /**
-	@brief A message in the BACnet Virtual Link Layer
+	@brief A BACnet/IP "Read-Broadcast-Distribution-Table-ACK" message
  */
-class BVLLMessage
+class BVLLReadBroadcastDistributionTableAckMessage
 {
 public:
-	BVLLMessage();
-	virtual ~BVLLMessage();
+	BVLLReadBroadcastDistributionTableAckMessage();
+	BVLLReadBroadcastDistributionTableAckMessage(unsigned char* buf, size_t len);
+	virtual ~BVLLReadBroadcastDistributionTableAckMessage()
 
-	virtual size_t Pack(unsigned char* buf, size_t buflen);
-	static BVLLMessage* Unpack(unsigned char* buf, size_t len);
-
-	enum BVLLType
-	{
-		BVLL_TYPE_BACNETIP = 0x81
-	};
-	uint8_t m_type;
-
-	enum BVLLFunction
-	{
-		BVLL_FUNC_RESULT				= 0x00,
-		BVLL_FUNC_WRITE_BROADCAST		= 0x01,
-		BVLL_FUNC_READ_BROADCAST		= 0x02,
-		BVLL_FUNC_READ_BROADCAST_ACK	= 0x03,
-		BVLL_FUNC_FORWARD_NPDU			= 0x04,
-	};
-	uint8_t m_function;
-
-	//includes header
-	uint16_t m_length;
+	std::vector<BroadcastTableEntry> m_entries;
 };
 
 #endif
